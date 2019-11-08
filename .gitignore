@@ -1,0 +1,4 @@
+./idea
+./vendor
+./k8s/validatingWebhookConfiguration-ca-bundle.yaml
+.DS_Store
