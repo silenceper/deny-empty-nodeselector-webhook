@@ -1,0 +1,33 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: admission-webhook-deny-empty-nodeselector-deployment
+  labels:
+    app: admission-webhook-deny-empty-nodeselector
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: admission-webhook-deny-empty-nodeselector
+  template:
+    metadata:
+      labels:
+        app: admission-webhook-deny-empty-nodeselector
+    spec:
+      containers:
+        - name: admission-webhook-deny-empty-nodeselector
+          image: silenceper/deny-empty-nodeselector-webhook:0.0.1
+          imagePullPolicy: IfNotPresent
+          args:
+            - -tlsCertFile=/etc/webhook/certs/cert.pem
+            - -tlsKeyFile=/etc/webhook/certs/key.pem
+            - -alsologtostderr
+            - -v=4
+          volumeMounts:
+            - name: webhook-certs
+              mountPath: /etc/webhook/certs
+              readOnly: true
+      volumes:
+        - name: webhook-certs
+          secret:
+            secretName: admission-webhook-deny-empty-nodeselector-certs

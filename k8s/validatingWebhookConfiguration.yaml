@@ -1,0 +1,19 @@
+apiVersion: admissionregistration.k8s.io/v1beta1
+kind: ValidatingWebhookConfiguration
+metadata:
+  name: validation-webhook-deny-empty-nodeselector-cfg
+  labels:
+    app: admission-webhook-deny-empty-nodeselector
+webhooks:
+  - name: deny-empty-nodeselector.silenceper.com
+    clientConfig:
+      service:
+        name: admission-webhook-deny-empty-nodeselector-svc
+        namespace: default
+        path: "/validate"
+      caBundle: ${CA_BUNDLE}
+    rules:
+      - operations: [ "CREATE" ]
+        apiGroups: ["apps", ""]
+        apiVersions: ["v1"]
+        resources: ["deployments","pods"]

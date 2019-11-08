@@ -1,0 +1,12 @@
+apiVersion: v1
+kind: Service
+metadata:
+  name: admission-webhook-deny-empty-nodeselector-svc
+  namespace: default
+spec:
+  type: ClusterIP
+  selector:
+    app: admission-webhook-deny-empty-nodeselector
+  ports:
+    - port: 443
+      targetPort: 8080
